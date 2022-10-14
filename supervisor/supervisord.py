@@ -11,6 +11,7 @@ Options:
 -h/--help -- print this usage message and exit
 -v/--version -- print supervisord version number and exit
 -u/--user USER -- run supervisord as this user (or numeric uid)
+-g/--group GROUP -- run supervisord as this group (or numeric gid)
 -m/--umask UMASK -- use this umask for daemon subprocess (default is 022)
 -d/--directory DIRECTORY -- directory to chdir to when daemonized
 -l/--logfile FILENAME -- use FILENAME as logfile path

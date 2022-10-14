@@ -28,7 +28,7 @@ from supervisor.medusa import asyncore_25 as asyncore
 from supervisor.datatypes import process_or_group_name
 from supervisor.datatypes import boolean
 from supervisor.datatypes import integer
-from supervisor.datatypes import name_to_uid
+from supervisor.datatypes import name_to_uid, name_to_gid
 from supervisor.datatypes import gid_for_uid
 from supervisor.datatypes import existing_dirpath
 from supervisor.datatypes import byte_size
@@ -528,11 +528,16 @@ class ServerOptions(Options):
         # Additional checking of user option; set uid and gid
         if self.user is not None:
             try:
-                uid = name_to_uid(self.user)
+                (user, group) = colon_separated_user_group(self.user)
+                uid = name_to_uid(user)
+                if group == -1:
+                    gid = gid_for_uid(uid)
+                else:
+                    gid = name_to_gid(group)
             except ValueError as msg:
                 self.usage(msg) # invalid user
             self.uid = uid
-            self.gid = gid_for_uid(uid)
+            self.gid = gid
 
         if not self.loglevel:
             self.loglevel = section.loglevel
